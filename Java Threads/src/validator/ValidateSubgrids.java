@@ -1,3 +1,9 @@
+/*
+ * CSI3131 - Assignment 2
+ * Ryan Fitzgerald (7233237)
+ * 
+ */
+
 package validator;
 
 public class ValidateSubgrids implements Runnable {
@@ -6,9 +12,9 @@ public class ValidateSubgrids implements Runnable {
 	private int subgrid; // Current subgrid
 	private boolean result = true; // Store result (default to true)
 	
-	public ValidateSubgrids(int[][] sudoku, int k) {
+	public ValidateSubgrids(int[][] sudoku, int subgrid) {
 		this.sudoku = sudoku;
-		subgrid = k;
+		this.subgrid = subgrid;
 	}
 	
 	public void run() {

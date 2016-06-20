@@ -1,13 +1,36 @@
+/*
+ * CSI3131 - Assignment 2
+ * Ryan Fitzgerald (7233237)
+ * 
+ */
+
 package validator;
 
-public class Validate implements Runnable {
+public class Validate {
 	
 	static int[][] sudoku; // Store sudoku solution
 	static int[] results; // Store results of each child thread
-
-	public void run() {
+	
+	public static void main(String[] args) {
 		
-		// Create the results array
+		// Store whether sudoku is valid or not (default: true)
+		boolean valid = true;
+		
+		// Default sudoku solution provided (can be changed for testing)
+		// This solution is valid
+		sudoku = new int[][]{
+			{6, 2, 4, 5, 3, 9, 1, 8, 7},
+			{5, 1, 9, 7, 2, 8, 6, 3, 4},
+			{8, 3, 7, 6, 1, 4, 2, 9, 5},
+			{1, 4, 3, 8, 6, 5, 7, 2, 9},
+			{9, 5, 8, 2, 4, 7, 3, 6, 1},
+			{7, 6, 2, 3, 9, 1, 4, 5, 8},
+			{3, 7, 1, 9, 5, 6, 8, 4, 2},
+			{4, 9, 6, 1, 8, 2, 5, 7, 3},
+			{2, 8, 5, 4, 7, 3, 9, 1, 6}
+		};
+		
+		// Create the results array (1 spot for each thread)
 		results = new int[11];
 		
 		// Create thread for rows
@@ -29,7 +52,7 @@ public class Validate implements Runnable {
 			subgrids[i].start();
 		}
 		
-		// Wait for all child threads to complete before parent continues
+		// Wait for all child threads to complete before continuing
 		try {
 			
 			// Join row thread
@@ -47,37 +70,6 @@ public class Validate implements Runnable {
 			e.printStackTrace();
 		}
 		
-		
-	}
-	
-	public static void main(String[] args) {
-		
-		boolean valid = true;
-		
-		// Default sudoku solution provided
-		sudoku = new int[][]{
-			{6, 2, 4, 5, 3, 9, 1, 8, 7},
-			{5, 1, 9, 7, 2, 8, 6, 3, 4},
-			{8, 3, 7, 6, 1, 4, 2, 9, 5},
-			{1, 4, 3, 8, 6, 5, 7, 2, 9},
-			{9, 5, 8, 2, 4, 7, 3, 6, 1},
-			{7, 6, 2, 3, 9, 1, 4, 5, 8},
-			{3, 7, 1, 9, 5, 6, 8, 4, 2},
-			{4, 9, 6, 1, 8, 2, 5, 7, 3},
-			{2, 8, 5, 4, 7, 3, 9, 1, 6}
-		};
-		
-		// Create and start parent thread
-		Thread validate = new Thread(new Validate());
-		validate.start();
-
-		// Wait for parent thread to complete
-		try {
-			validate.join(); 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		// Loop Through the results array
 		for (int i = 0; i < results.length; i++) {
 			// If a false is found, entire puzzle is invalid
@@ -86,7 +78,7 @@ public class Validate implements Runnable {
 			}
 		}
 		
-		// Print final result
+		// Print final result based on valid flag
 		if (valid) {
 			System.out.println("The provided sudoku solution is valid!");			
 		} else {

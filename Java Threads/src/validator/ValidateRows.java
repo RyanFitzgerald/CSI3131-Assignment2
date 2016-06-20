@@ -1,3 +1,9 @@
+/*
+ * CSI3131 - Assignment 2
+ * Ryan Fitzgerald (7233237)
+ * 
+ */
+
 package validator;
 
 public class ValidateRows implements Runnable {
